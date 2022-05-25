@@ -4,17 +4,34 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    private static GridManager _instance;
+    public static GridManager Instance { get { return _instance; } }
+
     [SerializeField]
     private int _width, _height;
+
     [SerializeField]
     private Tile _tilePrefab;
+
     [SerializeField]
     private Transform _cammera;
 
-    private Dictionary<Vector2, Tile> _tiles;
+    public Dictionary<Vector2, Tile> tiles;
+
+    private void Awake()
+    {
+        if(_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        } else
+        {
+            _instance = this;
+        }
+    }
 
     void Start()
     {
+        tiles = new Dictionary<Vector2, Tile>();
         GenerateGrid();
     }
 
@@ -27,8 +44,9 @@ public class GridManager : MonoBehaviour
             {
                 Tile spawnedTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity, this.transform);
                 spawnedTile.name = $"Tile {x} {y}";
+                spawnedTile.gridLocation = new Vector2Int(x, y);
 
-                _tiles.Add(new Vector2(x,y), spawnedTile);
+                tiles.Add(new Vector2Int(x,y), spawnedTile);
             }
         }
         
@@ -38,7 +56,7 @@ public class GridManager : MonoBehaviour
 
     public Tile GetTileAtPosition(Vector2 pos)
     {
-        if(_tiles.TryGetValue(pos, out Tile tile))
+        if(tiles.TryGetValue(pos, out Tile tile))
             return tile;
         
         return null;

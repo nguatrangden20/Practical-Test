@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int G, H;
+    public int F { get { return H + G; } }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public bool isBlocked = false;
+
+    public Tile previous;
+
+    public Vector2Int gridLocation;
+
+
+
+    private void OnMouseDown() 
+    {   
+       // Debug.Log(gameObject.name);
     }
 }
