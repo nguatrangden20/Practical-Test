@@ -175,5 +175,10 @@ public static class EventDispatcherExtension
 	{
 		EventDispatcher.Instance.PostEvent(eventID, null);
 	}
+
+	public static void RemoveListener(this MonoBehaviour listener, EventID eventID, Action<object> callback)
+    {
+		EventDispatcher.Instance.RemoveListener(eventID, callback);
+    }
 }
 #endregion

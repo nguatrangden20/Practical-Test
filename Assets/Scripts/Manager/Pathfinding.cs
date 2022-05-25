@@ -41,7 +41,7 @@ public class Pathfinding
             }
         }
 
-        return null;
+        return new List<Tile>();
     }
 
     private int GetManhattenDistance(Tile start, Tile tile)
@@ -75,7 +75,7 @@ public class Pathfinding
             neighbours.Add(listTile[locationToCheck]);
         }
         //bottom
-        locationToCheck = new Vector2Int(currentTile.gridLocation.x + 1, currentTile.gridLocation.y - 1);
+        locationToCheck = new Vector2Int(currentTile.gridLocation.x, currentTile.gridLocation.y - 1);
         if (listTile.ContainsKey(locationToCheck))
         {
             neighbours.Add(listTile[locationToCheck]);

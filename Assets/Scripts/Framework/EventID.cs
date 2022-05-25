@@ -6,5 +6,5 @@ public enum EventID
 	OnStartTurn,
 	OnEndTurn,
 	OnExplosion,
-	OnGameOver,
+	OnMove,
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8799863884430063639}
   - component: {fileID: 647226108581252268}
   - component: {fileID: 8244670996227982412}
-  - component: {fileID: 118145771552947347}
+  - component: {fileID: 5254040391038891425}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -93,10 +93,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1791018771820930345}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b2c989aa9479f8478221fe2346e24da, type: 3}
+  m_Script: {fileID: 11500000, guid: 866722abfca3fc34ba8445e4d366dac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &118145771552947347
+  G: 0
+  H: 0
+  previous: {fileID: 0}
+  gridLocation: {x: 0, y: 0}
+  circle: {fileID: 0}
+--- !u!61 &5254040391038891425
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

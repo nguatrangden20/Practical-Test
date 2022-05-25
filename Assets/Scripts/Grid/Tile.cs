@@ -6,8 +6,8 @@ public class Tile : MonoBehaviour
 {
     public int G, H;
     public int F { get { return H + G; } }
-
-    public bool isBlocked { get { return circle != null ? true : false; } }
+    [SerializeField]
+    public bool isBlocked { get { return (circle != null  && circle.largestSize)? true : false ; } }
 
     public Tile previous;
 

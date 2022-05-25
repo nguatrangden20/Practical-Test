@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,10 @@ public class GridManager : MonoBehaviour
     private Transform _circleParen;
 
     public Dictionary<Vector2Int, Tile> tiles;
-    List<Vector2Int> listLocation;
 
-    public const int NUMBER_SPAWN = 3;
+    public int numberSpawn = 3;
+    private const float MINIMUM_SIZE = 0.3f;
+    public float largestSize = 0.7f;
 
     private void OnValidate()
     {
@@ -47,9 +49,10 @@ public class GridManager : MonoBehaviour
     {
         tiles = new Dictionary<Vector2Int, Tile>();
         GenerateGrid();
-        listLocation = new List<Vector2Int>(tiles.Keys);
 
-        FirstTurn();
+        SpawnCircle(true);
+
+        this.RegisterListener(EventID.OnStartTurn, (param) => SpawnCircle(false));
     }
 
 
@@ -82,19 +85,48 @@ public class GridManager : MonoBehaviour
     #endregion
 
     #region Game Mechanic
-    private void FirstTurn()
+    private void SpawnCircle(bool isLargesSize)
     {
+        List<Vector2Int> listLocation = tiles.Keys.Where(x => !tiles[x].isBlocked).ToList();
+
+        if (listLocation.Count <= 1 )
+        {
+            GameOver();
+            return;
+        }
+        else if (listLocation.Count < numberSpawn)
+        {
+            numberSpawn = listLocation.Count;
+        }
+
         listLocation.Shuffle();
 
-        for (int i = 0; i < NUMBER_SPAWN; i++)
+        for (int i = 0; i < numberSpawn; i++)
         {
             Vector2Int location = listLocation[i];
 
             Circle spawnedCircle = Instantiate(_circlePrefab, new Vector3(location.x, location.y, _circlePrefab.transform.position.z), Quaternion.identity, _circleParen);
                    spawnedCircle.name = $"Circle {location.x} {location.y}";
+                   spawnedCircle.location = location;
+
+            if (isLargesSize)
+            {
+                spawnedCircle.transform.localScale = new Vector3(largestSize, largestSize, largestSize);
+                spawnedCircle.largestSize = true;
+            } else
+            {
+                spawnedCircle.transform.localScale = new Vector3(MINIMUM_SIZE, MINIMUM_SIZE, MINIMUM_SIZE);
+                spawnedCircle.largestSize = false;
+            }
 
             tiles[location].circle = spawnedCircle;
+
         }
+    }
+
+    private void GameOver()
+    {
+        Common.Log("GameOver");
     }
     #endregion
 }

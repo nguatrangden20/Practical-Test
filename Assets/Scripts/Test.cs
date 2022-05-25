@@ -36,6 +36,16 @@ public class Test : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            this.PostEvent(EventID.OnStartTurn);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            this.PostEvent(EventID.OnEndTurn);
+        }
     }
 
     private static RaycastHit2D? GetFocusedOnTile()
