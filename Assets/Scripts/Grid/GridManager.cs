@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -7,16 +8,29 @@ public class GridManager : MonoBehaviour
     private static GridManager _instance;
     public static GridManager Instance { get { return _instance; } }
 
-    [SerializeField]
-    private int _width, _height;
+    public int width, height;
 
     [SerializeField]
     private Tile _tilePrefab;
 
     [SerializeField]
+    private Circle _circlePrefab;
+
+    [SerializeField]
     private Transform _cammera;
 
-    public Dictionary<Vector2, Tile> tiles;
+    [SerializeField]
+    private Transform _circleParen;
+
+    public Dictionary<Vector2Int, Tile> tiles;
+    List<Vector2Int> listLocation;
+
+    public const int NUMBER_SPAWN = 3;
+
+    private void OnValidate()
+    {
+        
+    }
 
     private void Awake()
     {
@@ -31,16 +45,20 @@ public class GridManager : MonoBehaviour
 
     void Start()
     {
-        tiles = new Dictionary<Vector2, Tile>();
+        tiles = new Dictionary<Vector2Int, Tile>();
         GenerateGrid();
+        listLocation = new List<Vector2Int>(tiles.Keys);
+
+        FirstTurn();
     }
 
 
+    #region GenerateGrid
     private void GenerateGrid()
     {
-        for (int x = 0; x < _width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < _height; y++)
+            for (int y = 0; y < height; y++)
             {
                 Tile spawnedTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity, this.transform);
                 spawnedTile.name = $"Tile {x} {y}";
@@ -51,14 +69,32 @@ public class GridManager : MonoBehaviour
         }
         
         float _margin = 0.5f;
-        _cammera.position = new Vector3((float)_width/2 - _margin, (float)_height/2 - _margin, _cammera.position.z);
+        _cammera.position = new Vector3((float)width/2 - _margin, (float)height/2 - _margin, _cammera.position.z);
     }
 
-    public Tile GetTileAtPosition(Vector2 pos)
+    public Tile GetTileAtPosition(Vector2Int pos)
     {
         if(tiles.TryGetValue(pos, out Tile tile))
             return tile;
         
         return null;
     }
+    #endregion
+
+    #region Game Mechanic
+    private void FirstTurn()
+    {
+        listLocation.Shuffle();
+
+        for (int i = 0; i < NUMBER_SPAWN; i++)
+        {
+            Vector2Int location = listLocation[i];
+
+            Circle spawnedCircle = Instantiate(_circlePrefab, new Vector3(location.x, location.y, _circlePrefab.transform.position.z), Quaternion.identity, _circleParen);
+                   spawnedCircle.name = $"Circle {location.x} {location.y}";
+
+            tiles[location].circle = spawnedCircle;
+        }
+    }
+    #endregion
 }
