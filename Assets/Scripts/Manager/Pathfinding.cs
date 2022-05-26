@@ -11,6 +11,11 @@ public class Pathfinding
 
         openList.Add(start);
 
+        if (end.isBlocked)
+        {
+            return new List<Tile>();
+        }
+
         while (openList.Count > 0)
         {
             Tile currentTile = openList.OrderBy(x => x.F).First();
@@ -23,24 +28,46 @@ public class Pathfinding
                 return GetFinishedList(start, end);
             }
 
-            foreach (var tile in GetNeighbourTile(currentTile))
+            if (!start.circle.isGhost)
             {
-                if (tile.isBlocked || closedList.Contains(tile)) continue;
-
-                tile.G = GetManhattenDistance(start, tile);
-                tile.H = GetManhattenDistance(end, tile);
-
-                tile.previous = currentTile;
-
-                if (!openList.Contains(tile))
+                foreach (var tile in GetNeighbourTile(currentTile))
                 {
-                    openList.Add(tile);
+                    if (tile.isBlocked || closedList.Contains(tile)) continue;
+
+                    tile.G = GetManhattenDistance(start, tile);
+                    tile.H = GetManhattenDistance(end, tile);
+
+                    tile.previous = currentTile;
+
+                    if (!openList.Contains(tile))
+                    {
+                        openList.Add(tile);
+                    }
                 }
+            }
+            else
+            {
+                foreach (var tile in GetNeighbourTile(currentTile))
+                {
+                    if (closedList.Contains(tile)) continue;
+
+                    tile.G = GetManhattenDistance(start, tile);
+                    tile.H = GetManhattenDistance(end, tile);
+
+                    tile.previous = currentTile;
+
+                    if (!openList.Contains(tile))
+                    {
+                        openList.Add(tile);
+                    }
+                }
+
             }
         }
 
         return new List<Tile>();
-    }
+
+    } 
 
     private int GetManhattenDistance(Tile start, Tile tile)
     {

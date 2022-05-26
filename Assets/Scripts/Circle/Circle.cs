@@ -25,6 +25,8 @@ public class Circle : MonoBehaviour
         Color.magenta
     };
 
+    public bool isGhost;
+
     [HideInInspector]
     public bool largestSize;
 
@@ -32,6 +34,10 @@ public class Circle : MonoBehaviour
 
     void Start()
     {
+        if (Random.Range(1, 10) == 1)
+        {
+            isGhost = true;
+        }
         explosion = GetComponentInChildren<ParticleSystem>();
 
         _OnReceiveEventRef = (param) => GrowUp();
@@ -45,30 +51,43 @@ public class Circle : MonoBehaviour
         {
             this.RegisterListener(EventID.OnEndTurn, _OnReceiveEventRef);
         }
+
+        if (isGhost)
+        {
+            Debug.Log("Ghsot Here " + gameObject.name);
+            SpriteRenderer r = gameObject.GetComponent<SpriteRenderer>();
+
+            LeanTween.value(gameObject, 0, 1, 1).setOnUpdate((float val) =>
+            {
+                Color c = r.color;
+                c.a = val;
+                r.color = c;
+            }).setLoopPingPong();
+        }
     }
 
     private void GrowUp()
     {
-        Tile currentTile = GridManager.Instance.GetTileAtPosition(location);
-        if (currentTile.isBlocked)
-            Destroy(gameObject);
+        this.RemoveListener(EventID.OnEndTurn, _OnReceiveEventRef);
+
+        CheckCircleTile();
 
         largestSize = true;
         float size = GridManager.Instance.largestSize;
         LeanTween.scale(gameObject, new Vector3(size, size, size), 0.5f);
 
+        Tile currentTile = GridManager.Instance.GetTileAtPosition(location);
         List<Tile> listScore = GridManager.Instance.CheckScore(currentTile);
         if (listScore.Count >= 5)
         {
             this.PostEvent(EventID.OnExplosion, listScore);
         }
-
-        this.RemoveListener(EventID.OnEndTurn, _OnReceiveEventRef);
     }
 
-    private void OnDestroy()
+    private void CheckCircleTile()
     {
-        this.RemoveListener(EventID.OnEndTurn, _OnReceiveEventRef);
+        Tile currentTile = GridManager.Instance.GetTileAtPosition(location);
+        if (currentTile.isBlocked)
+            Destroy(gameObject);
     }
-
 }

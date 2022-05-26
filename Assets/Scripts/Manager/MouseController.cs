@@ -50,12 +50,15 @@ public class MouseController : MonoBehaviour
                 {
                     onProgress = true;
                     _endTile = currentTile;
+
                     path = pathFinding.FindPath(GridManager.Instance.GetTileAtPosition(_circle.location) , currentTile);
 
                     if (path.Count == 1 || path.Count == 0)
                     {
                         LeanTween.cancel(_circle.gameObject);
                         LeanTween.scale(_circle.gameObject, new Vector3(size, size, size), 0.25f);
+
+                        FadeInOut(_circle);
 
                         AudioManager.instance.Play("CancelSlect");
                         path.Clear();
@@ -83,6 +86,21 @@ public class MouseController : MonoBehaviour
         }
     }
 
+    private void FadeInOut(Circle _circle)
+    {
+        if (_circle.isGhost)
+        {
+            SpriteRenderer r = _circle.gameObject.GetComponent<SpriteRenderer>();
+
+            LeanTween.value(_circle.gameObject, 0, 1, 1).setOnUpdate((float val) =>
+            {
+                Color c = r.color;
+                c.a = val;
+                r.color = c;
+            }).setLoopPingPong();
+        }
+    }
+
     private void LateUpdate()
     {
         if (path.Count > 0)
@@ -93,6 +111,8 @@ public class MouseController : MonoBehaviour
             {
                 LeanTween.cancel(_circle.gameObject);
                 LeanTween.scale(_circle.gameObject, new Vector3(size, size, size), 0.25f);
+
+                FadeInOut(_circle);
 
                 GridManager.Instance.GetTileAtPosition(_circle.location).circle = null;
 
