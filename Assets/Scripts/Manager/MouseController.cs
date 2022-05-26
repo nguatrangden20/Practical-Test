@@ -79,10 +79,21 @@ public class MouseController : MonoBehaviour
             if (path.Count == 0)
             {
                 GridManager.Instance.GetTileAtPosition(_circle.location).circle = null;
+
                 _circle.location = _endTile.gridLocation;
-                GridManager.Instance.GetTileAtPosition(_endTile.gridLocation).circle = _circle;
+                Tile currentTile = GridManager.Instance.GetTileAtPosition(_endTile.gridLocation);
+                currentTile.circle = _circle;
+
+                List<Tile> listScore = GridManager.Instance.CheckScore(currentTile);
+                if (listScore.Count >= 5)
+                {
+                    this.PostEvent(EventID.OnExplosion, listScore);
+                }
                 _circle = null;
                 onProgress = false;
+
+                this.PostEvent(EventID.OnEndTurn);
+                this.PostEvent(EventID.OnStartTurn);
             }
         }
     }

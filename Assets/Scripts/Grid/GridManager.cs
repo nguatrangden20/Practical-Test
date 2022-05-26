@@ -53,6 +53,7 @@ public class GridManager : MonoBehaviour
         SpawnCircle(true);
 
         this.RegisterListener(EventID.OnStartTurn, (param) => SpawnCircle(false));
+        this.RegisterListener(EventID.OnExplosion, (param) => ExplosionCircle((List<Tile>)param));
     }
 
 
@@ -121,6 +122,211 @@ public class GridManager : MonoBehaviour
 
             tiles[location].circle = spawnedCircle;
 
+        }
+    }
+
+    public List<Tile> CheckScore(Tile currentTile)
+    {
+        List<Tile> listCheck = new List<Tile>();
+        List<Tile> finishList = new List<Tile>();
+        bool yang = true;
+        bool yin = true;
+        int x = currentTile.gridLocation.x;
+        int y = currentTile.gridLocation.y;
+        listCheck.Add(currentTile);
+        int maxPoint = Mathf.Max(width, height);
+
+        #region vertical
+        for (int i = 1; i < maxPoint -1; i++)
+        {
+            Vector2Int yangNumber = new Vector2Int(x, y - i);
+            Vector2Int yinNumber = new Vector2Int(x, y + i);
+
+            if (tiles.ContainsKey(yangNumber) && yang)
+            {
+                if (tiles[yangNumber].circle != null && tiles[yangNumber].circle.color == currentTile.circle.color)
+                {
+                    listCheck.Add(tiles[yangNumber]);
+                }
+                else yang = false;
+            }
+            else yang = false;
+
+            if (tiles.ContainsKey(yinNumber) && yin)
+            {
+                if (tiles[yinNumber].circle != null && tiles[yinNumber].circle.color == currentTile.circle.color)
+                {
+                    listCheck.Add(tiles[yinNumber]);
+                }
+                else yin = false;
+            }
+            else yin = false;
+
+            if (!yin && !yang)
+            {
+                if (listCheck.Count >= 5)
+                {
+                    if (finishList.Contains(currentTile))
+                        listCheck.Remove(currentTile);
+
+                    finishList.AddRange(listCheck);
+                    listCheck.Clear();                    
+                }
+                else
+                    listCheck.Clear();
+
+                break;
+            }
+        }
+        #endregion
+
+        #region horizontal
+        listCheck.Add(currentTile);
+        yang = true; yin = true;
+        for (int i = 1; i < maxPoint -1; i++)
+        {
+            Vector2Int yangNumber = new Vector2Int(x - i, y);
+            Vector2Int yinNumber = new Vector2Int(x + i, y);
+
+            if (tiles.ContainsKey(yangNumber) && yang)
+            {
+                if (tiles[yangNumber].circle != null && tiles[yangNumber].circle.color == currentTile.circle.color)
+                {
+                    listCheck.Add(tiles[yangNumber]);
+                }
+                else yang = false;
+            }
+            else yang = false;
+
+            if (tiles.ContainsKey(yinNumber) && yin)
+            {
+                if (tiles[yinNumber].circle != null && tiles[yinNumber].circle.color == currentTile.circle.color)
+                {
+                    listCheck.Add(tiles[yinNumber]);
+                }
+                else yin = false;
+            }
+            else yin = false;
+
+            if (!yin && !yang)
+            {
+                if (listCheck.Count >= 5)
+                {
+                    if (finishList.Contains(currentTile))
+                        listCheck.Remove(currentTile);
+
+                    finishList.AddRange(listCheck);
+                    listCheck.Clear();
+                }
+                else
+                    listCheck.Clear();
+
+                break;
+            }
+        }
+        #endregion
+
+        #region diagonal left
+        listCheck.Add(currentTile);
+        yang = true; yin = true;
+        for (int i = 1; i < maxPoint -1; i++)
+        {
+            Vector2Int yangNumber = new Vector2Int(x - i, y + i);
+            Vector2Int yinNumber = new Vector2Int(x + i , y - i);
+
+            if (tiles.ContainsKey(yangNumber) && yang)
+            {
+                if (tiles[yangNumber].circle != null && tiles[yangNumber].circle.color == currentTile.circle.color)
+                {
+                    listCheck.Add(tiles[yangNumber]);
+                }
+                else yang = false;
+            }
+            else yang = false;
+
+            if (tiles.ContainsKey(yinNumber) && yin)
+            {
+                if (tiles[yinNumber].circle != null && tiles[yinNumber].circle.color == currentTile.circle.color)
+                {
+                    listCheck.Add(tiles[yinNumber]);
+                }
+                else yin = false;
+            }
+            else yin = false;
+
+            if (!yin && !yang)
+            {
+                if (listCheck.Count >= 5)
+                {
+                    if (finishList.Contains(currentTile))
+                        listCheck.Remove(currentTile);
+
+                    finishList.AddRange(listCheck);
+                    listCheck.Clear();
+                }
+                else
+                    listCheck.Clear();
+
+                break;
+            }
+        }
+        #endregion
+
+        #region diagonal right
+        listCheck.Add(currentTile);
+        yang = true; yin = true;
+        for (int i = 1; i < maxPoint -1; i++)
+        {
+            Vector2Int yangNumber = new Vector2Int(x + i, y + i);
+            Vector2Int yinNumber = new Vector2Int(x - i , y - i);
+
+            if (tiles.ContainsKey(yangNumber) && yang)
+            {
+                if (tiles[yangNumber].circle != null && tiles[yangNumber].circle.color == currentTile.circle.color)
+                {
+                    listCheck.Add(tiles[yangNumber]);
+                }
+                else yang = false;
+            }
+            else yang = false;
+
+            if (tiles.ContainsKey(yinNumber) && yin)
+            {
+                if (tiles[yinNumber].circle != null && tiles[yinNumber].circle.color == currentTile.circle.color)
+                {
+                    listCheck.Add(tiles[yinNumber]);
+                }
+                else yin = false;
+            }
+            else yin = false;
+
+            if (!yin && !yang)
+            {
+                if (listCheck.Count >= 5)
+                {
+                    if (finishList.Contains(currentTile))
+                        listCheck.Remove(currentTile);
+
+                    finishList.AddRange(listCheck);
+                    listCheck.Clear();
+                }
+                else
+                    listCheck.Clear();
+
+                break;
+            }
+        }
+        #endregion
+
+        Common.Log(finishList.Count);
+        return finishList;
+    }
+
+    private void ExplosionCircle(List<Tile> list)
+    {
+        foreach (var item in list)
+        {
+            Destroy(item.circle.gameObject);            
         }
     }
 

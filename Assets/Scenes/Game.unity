@@ -163,7 +163,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _circle: {fileID: 0}
-  _tile: {fileID: 0}
+  _endTile: {fileID: 0}
+  _startTile: {fileID: 0}
+  speed: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
