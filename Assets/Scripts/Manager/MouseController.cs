@@ -14,11 +14,13 @@ public class MouseController : MonoBehaviour
 
     private Pathfinding pathFinding;
     private List<Tile> path;
+    float size;
 
     private void Start()
     {
         pathFinding = new Pathfinding();
         path = new List<Tile>();
+        size = GridManager.Instance.largestSize;
     }
 
     void Update()
@@ -41,6 +43,8 @@ public class MouseController : MonoBehaviour
                         return;
                     }
                     _circle = currentTile.circle;
+
+                    LeanTween.scale(_circle.gameObject, new Vector3(size + 0.3f, size + 0.3f, size + 0.3f), 0.5f).setLoopPingPong();                    
                 }
                 else if(!onProgress)
                 {
@@ -48,8 +52,11 @@ public class MouseController : MonoBehaviour
                     _endTile = currentTile;
                     path = pathFinding.FindPath(GridManager.Instance.GetTileAtPosition(_circle.location) , currentTile);
 
-                    if (path.Count == 0)
+                    if (path.Count == 1 || path.Count == 0)
                     {
+                        LeanTween.cancel(_circle.gameObject);
+                        LeanTween.scale(_circle.gameObject, new Vector3(size, size, size), 0.25f);
+                        path.Clear();
                         _circle = null;
                         onProgress = false;
                     }
@@ -62,6 +69,8 @@ public class MouseController : MonoBehaviour
                             Debug.DrawLine(start, end, Color.red, 2f);
                         }
 
+                        LeanTween.cancel(_circle.gameObject);
+                        LeanTween.scale(_circle.gameObject, new Vector3(size - 0.5f, size -0.5f, size - 0.5f), 0.25f);
                     }
                 }
 
@@ -78,6 +87,9 @@ public class MouseController : MonoBehaviour
 
             if (path.Count == 0)
             {
+                LeanTween.cancel(_circle.gameObject);
+                LeanTween.scale(_circle.gameObject, new Vector3(size, size, size), 0.25f);
+
                 GridManager.Instance.GetTileAtPosition(_circle.location).circle = null;
 
                 _circle.location = _endTile.gridLocation;

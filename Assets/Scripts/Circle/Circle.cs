@@ -57,4 +57,5 @@ public class Circle : MonoBehaviour
         this.RemoveListener(EventID.OnEndTurn, _OnReceiveEventRef);
     }
 
+
 }

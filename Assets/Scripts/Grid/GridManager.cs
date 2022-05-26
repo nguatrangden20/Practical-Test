@@ -116,7 +116,8 @@ public class GridManager : MonoBehaviour
                 spawnedCircle.largestSize = true;
             } else
             {
-                spawnedCircle.transform.localScale = new Vector3(MINIMUM_SIZE, MINIMUM_SIZE, MINIMUM_SIZE);
+                spawnedCircle.transform.localScale = Vector3.zero;
+                LeanTween.scale(spawnedCircle.gameObject, new Vector3(MINIMUM_SIZE, MINIMUM_SIZE, MINIMUM_SIZE), 0.5f);
                 spawnedCircle.largestSize = false;
             }
 

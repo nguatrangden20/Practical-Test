@@ -165,7 +165,7 @@ MonoBehaviour:
   _circle: {fileID: 0}
   _endTile: {fileID: 0}
   _startTile: {fileID: 0}
-  speed: 1
+  speed: 9
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -282,8 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4cf9db3c135dde4cb522889da601891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 3
-  height: 3
+  width: 9
+  height: 9
   _tilePrefab: {fileID: 8244670996227982412, guid: 86d6e36025522074f9a00d04637f5638, type: 3}
   _circlePrefab: {fileID: 5477755413886710431, guid: bd5f6f4f1992c434ea0416cedb354477, type: 3}
   _cammera: {fileID: 519420032}
