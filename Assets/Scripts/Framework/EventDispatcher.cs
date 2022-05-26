@@ -134,9 +134,6 @@ public class EventDispatcher : MonoBehaviour
 		if (_listeners.ContainsKey(eventID))
 		{
 			_listeners[eventID] -= callback;
-			if (eventID == EventID.OnEndTurn)
-				Common.Log(_listeners[eventID]?.GetInvocationList().Length);
-			
 		}
 		else
 		{

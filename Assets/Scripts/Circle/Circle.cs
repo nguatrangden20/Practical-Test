@@ -1,15 +1,16 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Circle : MonoBehaviour
 {
+    [HideInInspector]
     public Color color;
 
     private SpriteRenderer _spriteRenderer;
 
+    [HideInInspector]
     public Vector2Int location;
 
     private ParticleSystem explosion;
@@ -24,6 +25,7 @@ public class Circle : MonoBehaviour
         Color.magenta
     };
 
+    [HideInInspector]
     public bool largestSize;
 
     Action<object> _OnReceiveEventRef;

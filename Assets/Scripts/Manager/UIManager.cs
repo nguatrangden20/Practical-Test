@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using System;
+using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {   [SerializeField]
@@ -13,14 +10,20 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _timeText;
 
+    [SerializeField]
+    private TextMeshProUGUI _highScore;
+
 
     void Start()
     {
         this.RegisterListener(EventID.OnExplosion, (param) => UpdateScore((List<Tile>)param));
+
+        _highScore.text = PlayerPrefs.GetInt("score").ToString();
     }
 
     private void UpdateScore(List<Tile> param)
     {
+        AudioManager.instance.Play("Score");
         score += param.Count;
         _scoreText.text = score.ToString();
     }

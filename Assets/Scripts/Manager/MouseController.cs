@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class MouseController : MonoBehaviour
@@ -44,7 +42,9 @@ public class MouseController : MonoBehaviour
                     }
                     _circle = currentTile.circle;
 
-                    LeanTween.scale(_circle.gameObject, new Vector3(size + 0.3f, size + 0.3f, size + 0.3f), 0.5f).setLoopPingPong();                    
+                    LeanTween.scale(_circle.gameObject, new Vector3(size + 0.3f, size + 0.3f, size + 0.3f), 0.5f).setLoopPingPong();
+
+                    AudioManager.instance.Play("TouchCircle");
                 }
                 else if(!onProgress)
                 {
@@ -56,6 +56,8 @@ public class MouseController : MonoBehaviour
                     {
                         LeanTween.cancel(_circle.gameObject);
                         LeanTween.scale(_circle.gameObject, new Vector3(size, size, size), 0.25f);
+
+                        AudioManager.instance.Play("CancelSlect");
                         path.Clear();
                         _circle = null;
                         onProgress = false;
@@ -71,6 +73,8 @@ public class MouseController : MonoBehaviour
 
                         LeanTween.cancel(_circle.gameObject);
                         LeanTween.scale(_circle.gameObject, new Vector3(size - 0.5f, size -0.5f, size - 0.5f), 0.25f);
+
+                        AudioManager.instance.Play("Move");
                     }
                 }
 
@@ -125,8 +129,8 @@ public class MouseController : MonoBehaviour
 
     private void PositionCharacterOnLine(Tile tile)
     {
-        _circle.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.0001f, tile.transform.position.z);
-        _circle.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
+        _circle.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.0001f, -5);
+        _circle.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder + 1;
     }
 
 }

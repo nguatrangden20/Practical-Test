@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,8 +23,10 @@ public class GridManager : MonoBehaviour
 
     public Dictionary<Vector2Int, Tile> tiles;
 
+    [HideInInspector]
     public int numberSpawn = 3;
     private const float MINIMUM_SIZE = 0.3f;
+    [HideInInspector]
     public float largestSize = 0.7f;
 
     private void OnValidate()
@@ -54,6 +54,8 @@ public class GridManager : MonoBehaviour
 
         this.RegisterListener(EventID.OnStartTurn, (param) => SpawnCircle(false));
         this.RegisterListener(EventID.OnExplosion, (param) => ExplosionCircle((List<Tile>)param));
+
+        AudioManager.instance.Play("Music");
     }
 
 
@@ -319,7 +321,6 @@ public class GridManager : MonoBehaviour
         }
         #endregion
 
-        Common.Log(finishList.Count);
         return finishList;
     }
 
