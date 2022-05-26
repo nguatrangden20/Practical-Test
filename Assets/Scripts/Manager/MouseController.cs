@@ -114,9 +114,7 @@ public class MouseController : MonoBehaviour
     {
         var step = speed * Time.deltaTime;
 
-        float zIndex = path[0].transform.position.z;
         _circle.transform.position = Vector2.MoveTowards(_circle.transform.position, path[0].transform.position, step);
-        _circle.transform.position = new Vector3(_circle.transform.position.x, _circle.transform.position.y, zIndex);
 
         if (Vector2.Distance(_circle.transform.position, path[0].transform.position) < 0.00001f)
         {

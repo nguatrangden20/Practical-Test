@@ -12,6 +12,8 @@ public class Circle : MonoBehaviour
 
     public Vector2Int location;
 
+    private ParticleSystem explosion;
+
     private Color[] _colorList = new Color[]
     {
         Color.cyan,
@@ -28,6 +30,8 @@ public class Circle : MonoBehaviour
 
     void Start()
     {
+        explosion = GetComponentInChildren<ParticleSystem>();
+
         _OnReceiveEventRef = (param) => GrowUp();
 
         color = _colorList[Random.Range(0, _colorList.Length)];
@@ -43,11 +47,14 @@ public class Circle : MonoBehaviour
 
     private void GrowUp()
     {
+        Tile currentTile = GridManager.Instance.GetTileAtPosition(location);
+        if (currentTile.isBlocked)
+            Destroy(gameObject);
+
         largestSize = true;
         float size = GridManager.Instance.largestSize;
         LeanTween.scale(gameObject, new Vector3(size, size, size), 0.5f);
 
-        Tile currentTile = GridManager.Instance.GetTileAtPosition(location);
         List<Tile> listScore = GridManager.Instance.CheckScore(currentTile);
         if (listScore.Count >= 5)
         {
@@ -57,5 +64,9 @@ public class Circle : MonoBehaviour
         this.RemoveListener(EventID.OnEndTurn, _OnReceiveEventRef);
     }
 
+    private void OnDestroy()
+    {
+        this.RemoveListener(EventID.OnEndTurn, _OnReceiveEventRef);
+    }
 
 }

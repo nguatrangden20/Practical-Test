@@ -327,12 +327,14 @@ public class GridManager : MonoBehaviour
     {
         foreach (var item in list)
         {
+            Instantiate(Resources.Load("Arcade Spark"), item.transform.position, Quaternion.identity);
             Destroy(item.circle.gameObject);            
         }
     }
 
     private void GameOver()
     {
+        this.PostEvent(EventID.OnGameOver);
         Common.Log("GameOver");
     }
     #endregion
