@@ -13,3 +13,5 @@ P/s: Lần đầu tiên mình làm miệt mài và say mê một dự án tới 
 Dù đậu hay rớt công ty mình đang phỏng vấn thì mình cũng muốn cảm ơn vì cho mình làm một bài test thú vị.
 
 Document dự án công ty gửi nên mình không share được nha, đây là Source Code mình làm.
+
+Mọi người có thể tải về chơi thử ở đây: https://drive.google.com/file/d/1vO8yPGT_H_kLWwJ76DJVacBOx8XWUmm5/view?usp=sharing
