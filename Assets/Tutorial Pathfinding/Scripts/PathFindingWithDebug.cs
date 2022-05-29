@@ -121,6 +121,9 @@ public class PathFindingWithDebug
 
     private int GetDistanceNode(Node start, Node end, bool hasDiagonal)
     {
+        Debug.Log(start);
+        Debug.Log(end);
+
         int xDistance = Mathf.Abs(start.location.x - end.location.x);
         int yDistace = Mathf.Abs(start.location.y - end.location.y);
 

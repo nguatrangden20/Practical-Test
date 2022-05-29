@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TestPathFinding : MonoBehaviour
 {
-    private PathFindingWithDebug pathFinding;
+    private PathFindingWithDebug pathFindingWithDebug;
+
+    private PathFinding pathFinding;
 
     private Node start, end;
     
@@ -14,7 +17,8 @@ public class TestPathFinding : MonoBehaviour
 
     private void Start()
     {
-        pathFinding = new PathFindingWithDebug();        
+        pathFindingWithDebug = new PathFindingWithDebug();
+        pathFinding = new PathFinding();
     }
 
     void Update()
@@ -23,13 +27,15 @@ public class TestPathFinding : MonoBehaviour
 
         if (hit.collider != null)
         {
-            TestFindPath(hit);
+            //TestFindPath(hit);
+
+            TestFindPathWithDebug(hit);
 
             AddAndRemoveBlock(hit);
         }
     }
 
-    private void TestFindPath(RaycastHit2D hit)
+    private void TestFindPathWithDebug(RaycastHit2D hit)
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -43,7 +49,9 @@ public class TestPathFinding : MonoBehaviour
             }
             else
             {
-                StartCoroutine(pathFinding.FindPath(start, end, hasDiagonal, debug, (x) =>
+                end = hit.collider.GetComponent<Node>();
+
+                StartCoroutine(pathFindingWithDebug.FindPath(start, end, hasDiagonal, debug, (x) =>
                 {
                     if (x != null)
                     {
@@ -56,6 +64,38 @@ public class TestPathFinding : MonoBehaviour
                     else Debug.Log("Can't Find Path");
 
                 }));
+
+                start.posDebug.text = $"{start.location.x}, {start.location.y}";
+                start = null;
+            }
+        }
+    }
+
+    private void TestFindPath(RaycastHit2D hit)
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Node node = hit.collider.GetComponent<Node>();
+            if (start == null)
+            {
+                start = node;
+                start.posDebug.text = "Start";
+            }
+            else
+            {
+                end = hit.collider.GetComponent<Node>();
+
+                List<Node> path = pathFinding.FindPath(start, end, hasDiagonal);
+
+                if (path != null)
+                {
+                    Debug.Log("Finish Find Path");
+                    for (int i = 0; i < path.Count - 1; i++)
+                    {
+                        Debug.DrawLine(((Vector3Int)path[i].location), ((Vector3Int)path[i + 1].location), Color.red, 2f);
+                    }
+                }
+                else Debug.Log("Can't Find Path");
 
                 start.posDebug.text = $"{start.location.x}, {start.location.y}";
                 start = null;

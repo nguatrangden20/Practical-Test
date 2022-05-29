@@ -266,5 +266,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a7ec6efebee1b488f82ecf9ebb1790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasDiagonal: 1
+  hasDiagonal: 0
   debug: 0
