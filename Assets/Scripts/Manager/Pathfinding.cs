@@ -34,7 +34,7 @@ public class Pathfinding
                 {
                     if (tile.isBlocked || closedList.Contains(tile)) continue;
 
-                    tile.G = GetManhattenDistance(start, tile);
+                    tile.G = GetManhattenDistance(currentTile, tile) + currentTile.G;
                     tile.H = GetManhattenDistance(end, tile);
 
                     tile.previous = currentTile;

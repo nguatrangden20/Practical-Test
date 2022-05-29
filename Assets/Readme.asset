@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf7219bab7fe46a1ad266029b2fee19, type: 3}
+  m_Name: Readme
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: 906a204647e25674a93a6b45848b73a6, type: 3}
+  iconMaxWidth: 192
+  title: Path Finding
+  sections:
+  - heading: Where to Start
+    text: If you want to play game, start at Game sceen. If you want to learn about
+      pathfinding start at Main Sceen.
+    linkText: 
+    url: 
+  - heading: How do I use Tutorial Pathfinding?
+    text: Make sure you enable Gizmos Gameview and 3D icons = 0. If you want see
+      how algorithm work then enable Debug in GameManger. Mouse left-click to choice
+      start and end node. Mouse right-click to create or remove the block node.
+    linkText: 
+    url: 
+  - heading: About debug mode.
+    text: Green node is OpenList. Red node is CloseList. Blue node is neighbors.
+      Pink node is finish path.
+    linkText: 
+    url: 
+  - heading: Who is you?
+    text: This project made by Anh Hoang. You can find me here.
+    linkText: Anh Hoang
+    url: https://nguatrangden20.wixsite.com/anhdev
+  loadedLayout: 0

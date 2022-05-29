@@ -71,7 +71,7 @@ public class EventDispatcher : MonoBehaviour
 	/// Register to listen for eventID
 	/// </summary>
 	/// <param name="eventID">EventID that object want to listen</param>
-	/// <param name="callback">Callback will be invoked when this eventID be raised</para	m>
+	/// <param name="callback">Callback will be invoked when this eventID be raised</param>
 	public void RegisterListener (EventID eventID, Action<object> callback)
 	{
 		// checking params

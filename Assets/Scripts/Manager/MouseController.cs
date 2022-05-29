@@ -14,14 +14,24 @@ public class MouseController : MonoBehaviour
     private List<Tile> path;
     float size;
 
+    bool stopInteract = false;
+
     private void Start()
     {
         pathFinding = new Pathfinding();
         path = new List<Tile>();
         size = GridManager.Instance.largestSize;
+
+        this.RegisterListener(EventID.OnGameOver, x => stopInteract = true);
     }
 
     void Update()
+    {
+        if (!stopInteract)
+            MouseInteract();
+    }
+
+    private void MouseInteract()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -46,12 +56,12 @@ public class MouseController : MonoBehaviour
 
                     AudioManager.instance.Play("TouchCircle");
                 }
-                else if(!onProgress)
+                else if (!onProgress)
                 {
                     onProgress = true;
                     _endTile = currentTile;
 
-                    path = pathFinding.FindPath(GridManager.Instance.GetTileAtPosition(_circle.location) , currentTile);
+                    path = pathFinding.FindPath(GridManager.Instance.GetTileAtPosition(_circle.location), currentTile);
 
                     if (path.Count == 1 || path.Count == 0)
                     {
@@ -75,17 +85,14 @@ public class MouseController : MonoBehaviour
                         }
 
                         LeanTween.cancel(_circle.gameObject);
-                        LeanTween.scale(_circle.gameObject, new Vector3(size - 0.5f, size -0.5f, size - 0.5f), 0.25f);
+                        LeanTween.scale(_circle.gameObject, new Vector3(size - 0.5f, size - 0.5f, size - 0.5f), 0.25f);
 
                         AudioManager.instance.Play("Move");
                     }
                 }
-
             }
-
         }
     }
-
     private void FadeInOut(Circle _circle)
     {
         if (_circle.isGhost)
@@ -102,6 +109,11 @@ public class MouseController : MonoBehaviour
     }
 
     private void LateUpdate()
+    {
+        MoveCircle();
+    }
+
+    private void MoveCircle()
     {
         if (path.Count > 0)
         {

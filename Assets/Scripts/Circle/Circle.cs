@@ -54,7 +54,6 @@ public class Circle : MonoBehaviour
 
         if (isGhost)
         {
-            Debug.Log("Ghsot Here " + gameObject.name);
             SpriteRenderer r = gameObject.GetComponent<SpriteRenderer>();
 
             LeanTween.value(gameObject, 0, 1, 1).setOnUpdate((float val) =>
@@ -66,11 +65,14 @@ public class Circle : MonoBehaviour
         }
     }
 
+    bool hasDestroy = false;
     private void GrowUp()
     {
         this.RemoveListener(EventID.OnEndTurn, _OnReceiveEventRef);
 
         CheckCircleTile();
+
+        if (hasDestroy) return;
 
         largestSize = true;
         float size = GridManager.Instance.largestSize;
@@ -88,6 +90,9 @@ public class Circle : MonoBehaviour
     {
         Tile currentTile = GridManager.Instance.GetTileAtPosition(location);
         if (currentTile.isBlocked)
+        {
+            hasDestroy = true;
             Destroy(gameObject);
+        }
     }
 }

@@ -6,6 +6,11 @@ using System;
 public class GameOver : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+
+    private void OnValidate()
+    {
+        Common.Warning(scoreText, "Please set scoreText reference in GameOver");
+    }
     void Start()
     {
         this.RegisterListener(EventID.OnGameOver, (param) => GameOverMethod());
