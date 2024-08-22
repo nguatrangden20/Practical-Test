@@ -1,4 +1,4 @@
-# Practical-Test
+# Line86
 Test-Interview
 
 Một bài test mình làm lúc đi phỏng vấn. Là 1 game dạng turn base, grid.
@@ -15,3 +15,4 @@ Dù đậu hay rớt công ty mình đang phỏng vấn thì mình cũng muốn 
 Document dự án công ty gửi nên mình không share được nha, đây là Source Code mình làm.
 
 Mọi người có thể tải về chơi thử ở đây: https://drive.google.com/file/d/1vO8yPGT_H_kLWwJ76DJVacBOx8XWUmm5/view?usp=sharing
+Bài hướng dẫn về Path Finding: https://nguatrangden20.wixsite.com/anhdev/post/h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-pathfinding-thu%E1%BA%ADt-to%C3%A1n-t%C3%ACm-%C4%91%C6%B0%E1%BB%9Dng
